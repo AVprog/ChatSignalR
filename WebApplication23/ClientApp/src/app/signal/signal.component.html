@@ -2,12 +2,13 @@
   signal works!
 </p>
 
-<input type="text" #user value="x"><br>
-<input type="text" #message value="abc"><br>
-<button (click)="sendMessage(user.value,message.value)"> sendMessage </button>
+<input type="text" #user value="x"><br><br>
+<input type="text" #message value="abc"><br><br>
+<button class="btn btn-secondary" (click)="sendMessage(user.value,message.value)"> sendMessage </button>
 <br>
-<ul>
-  <li *ngFor="let msg of masMsg">
+<br>
+<ul class="list-group">
+  <li class="list-group-item" *ngFor="let msg of masMsg">
     {{msg}}
   </li>
 </ul>

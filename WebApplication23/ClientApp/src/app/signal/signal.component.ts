@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import * as signalR from "@aspnet/signalr";
+import {SignalrServiceService} from "../signalr-service.service";
+
 
 @Component({
   selector: 'app-signal',
@@ -7,33 +8,21 @@ import * as signalR from "@aspnet/signalr";
   styleUrls: ['./signal.component.css']
 })
 export class SignalComponent implements OnInit {
-
-  constructor() {
-    this.connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+  constructor(private  signalrServiceService:SignalrServiceService) {   
    }
 
-  public connection:signalR.HubConnection;
   public masMsg:string[]=[];
-
   ngOnInit() {
-    
-
-    this.connection.start();
-
-    this.connection.on("ReceiveMessage",  (user, message) => {      
-        this.masMsg.push(`${user} ${message}`);
-        
-    });
-
-
+    this.signalrServiceService.initSignalR(); 
+    this.signalrServiceService.onReceiveMessage().subscribe(msg=>
+    {
+      this.masMsg.push(msg);
+    })
   }
 
   sendMessage(user:string,message:string)
   {
-    this.connection.invoke("SendMessage", user, message);
-  }
-
-
-  
+    this.signalrServiceService.sendMessage(user,message);
+  } 
 
 }
