@@ -1,6 +1,4 @@
-<p>
-  signal works!
-</p>
+
 
 <input type="text" #user value="x"><br><br>
 <input type="text" #message value="abc"><br><br>
@@ -9,6 +7,7 @@
 <br>
 <ul class="list-group">
   <li class="list-group-item" *ngFor="let msg of masMsg">
-    {{msg}}
+   <h4><span class="badge badge-secondary">{{msg.user}}</span></h4>
+    {{msg.message}}
   </li>
 </ul>

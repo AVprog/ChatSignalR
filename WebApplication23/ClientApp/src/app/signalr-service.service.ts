@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as signalR from "@aspnet/signalr";
 import { Observable } from "rxjs";
+import { MessageModel } from "./Model/MessageModel"
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,6 @@ export class SignalrServiceService {
   public connection:signalR.HubConnection;  
   constructor() {
     this.connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
-
    }
 
   initSignalR()
@@ -23,12 +23,13 @@ export class SignalrServiceService {
     this.connection.invoke("SendMessage", user, message);
   } 
 
-  onReceiveMessage():Observable<string>
+  onReceiveMessage():Observable<MessageModel>
   {
     return Observable.create(observer => {      
       this.connection.on("ReceiveMessage",  (user, message) => {      
-          let strMsg=`${user} ${message}`;
-          observer.next(strMsg);
+          //let strMsg=`${user} ${message}`;
+          let messageModel:MessageModel=new MessageModel(user,message);          
+          observer.next(messageModel);
         });    
     });
   }
