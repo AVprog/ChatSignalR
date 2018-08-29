@@ -32,7 +32,17 @@ export class SignalrServiceService {
           //let strMsg=`${user} ${message}`;
           let messageModel:MessageModel=new MessageModel(user,message);          
           observer.next(messageModel);
-        });    
+        }); 
+    });
+  }
+
+  onNotify():Observable<string>
+  {
+    return Observable.create(observer=>
+    {
+      this.connection.on("Notify",  (str) => {              
+        observer.next(str);
+      }); 
     });
   }
 

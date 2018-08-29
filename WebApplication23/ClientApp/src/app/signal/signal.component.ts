@@ -25,8 +25,14 @@ export class SignalComponent implements OnInit {
     {
       this.messageDataMasService.addMessage(msg);
     })
+    
+    this.signalrServiceService.onNotify().subscribe(s=>
+    {
+      alert(s);
+    });
 
     this.masMsg=this.messageDataMasService.masMsg;
+
   }
 
   ngOnDestroy()
