@@ -1,8 +1,19 @@
 
 
-<input type="text" #user value="x"><br><br>
-<input type="text" #message value="abc"><br><br>
-<button class="btn btn-secondary" (click)="sendMessage(user.value,message.value)"> sendMessage </button>
+<form>
+  <div class="form-group">
+    <label for="user">User:</label>
+    <input #user type="text" class="form-control" id="user" aria-describedby="userHelp" placeholder="Enter name">
+    <small id="userHelp" class="form-text text-muted">user name</small>
+  </div>  
+<div class="form-group">
+  <label for="message">Message:</label>
+  <input  #message  type="text" class="form-control" id="message" aria-describedby="messageHelp" placeholder="Enter message">
+  <small id="messageHelp" class="form-text text-muted">message from user</small>
+</div>  
+<button class="btn btn-secondary" (click)="sendMessage(user.value,message.value)"> sendMessage </button>&nbsp;  
+<button class="btn btn-secondary" (click)="clear()"> clear </button>
+</form>
 <br>
 <br>
 <ul class="list-group">

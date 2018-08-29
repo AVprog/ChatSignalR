@@ -1,6 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,OnDestroy} from '@angular/core';
 import { SignalrServiceService} from "../signalr-service.service";
 import { MessageModel } from "../Model/MessageModel";
+import { MessageDataMasService } from '../message-data-mas.service';
+import { Subscription } from "rxjs";
+
+
 
 
 @Component({
@@ -10,23 +14,37 @@ import { MessageModel } from "../Model/MessageModel";
 })
 export class SignalComponent implements OnInit {
    
-  constructor(private  signalrServiceService:SignalrServiceService) {   
-    let messageModel=new MessageModel("x","message from x");
-    this.masMsg.push(messageModel);
-   }
-  public masMsg:MessageModel[]=[];
+  public masMsg:MessageModel[];
+  constructor(private  signalrServiceService:SignalrServiceService,
+              private messageDataMasService:MessageDataMasService) {  }
 
-  ngOnInit() {
-    this.signalrServiceService.initSignalR(); 
-    this.signalrServiceService.onReceiveMessage().subscribe(msg=>
+  private subs:Subscription;
+
+  ngOnInit() {    
+    this.subs=this.signalrServiceService.onReceiveMessage().subscribe(msg=>
     {
-      this.masMsg.push(msg);
+      this.messageDataMasService.addMessage(msg);
     })
+
+    this.masMsg=this.messageDataMasService.masMsg;
+  }
+
+  ngOnDestroy()
+  {
+    this.subs.unsubscribe();
+
   }
 
   sendMessage(user:string,message:string)
   {
     this.signalrServiceService.sendMessage(user,message);
   } 
+
+  clear()
+  {
+    this.messageDataMasService.clearMessges();
+    this.masMsg=this.messageDataMasService.masMsg;
+  }
+
 
 }
