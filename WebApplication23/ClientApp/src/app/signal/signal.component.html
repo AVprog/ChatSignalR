@@ -1,3 +1,13 @@
 <p>
   signal works!
 </p>
+
+<input type="text" #user value="x"><br>
+<input type="text" #message value="abc"><br>
+<button (click)="sendMessage(user.value,message.value)"> sendMessage </button>
+<br>
+<ul>
+  <li *ngFor="let msg of masMsg">
+    {{msg}}
+  </li>
+</ul>
